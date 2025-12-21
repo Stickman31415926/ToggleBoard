@@ -40,6 +40,56 @@ const Levels:Level[] = [
             [0,1,1]
         ]
     },
+    {
+        level:4,
+        stdMoves:3,
+        size:3,
+        grid:[
+            [1,1,0],
+            [1,0,1],
+            [0,1,1]
+        ]
+    },
+    {
+        level:5,
+        stdMoves:1,
+        size:3,
+        grid:[
+            [1,1,1],
+            [0,0,0],
+            [0,0,0]
+        ]
+    },
+    {
+        level:6,
+        stdMoves:2,
+        size:3,
+        grid:[
+            [1,1,1],
+            [0,1,1],
+            [0,1,1]
+        ]
+    },
+    {
+        level:7,
+        stdMoves:3,
+        size:3,
+        grid:[
+            [1,1,1],
+            [1,0,1],
+            [1,0,1]
+        ]
+    },
+    {
+        level:8,
+        stdMoves:2,
+        size:3,
+        grid:[
+            [0,1,0],
+            [0,1,0],
+            [1,0,0]
+        ]
+    },
 ]
 
 export function getLevel(index:number) {

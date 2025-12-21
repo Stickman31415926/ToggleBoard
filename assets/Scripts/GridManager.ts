@@ -82,6 +82,14 @@ export class GridManager extends Component {
                 }
             }
         }
+        this._StartingGrid=[];
+        for(let i=0;i<size;i++){
+            this._row=[]
+            for(let j=0;j<size;j++){
+                this._row.push(this.grid[i][j]);
+            }
+            this._StartingGrid.push(this._row);
+        }
     }
 
     spawnTilesByGrid(size:number,resetStaringrid?:boolean){
