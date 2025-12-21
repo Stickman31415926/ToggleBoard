@@ -11,6 +11,8 @@ export class GameManager extends Component {
     public StdMovesNeeded:Label;
     @property({type:Label})
     public MovesMade:Label;
+    @property({type:Label})
+    public LevelLabel:Label;
     @property({type:Sprite})
     public ResetButton:Sprite;
     @property({type:Sprite})
@@ -45,14 +47,18 @@ export class GameManager extends Component {
         this._level+=1;
         this._hardness=getLevel(this._level).stdMoves;
         this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
+        this.LevelLabel.string='Level: '+(this._level+1)
         this.GridManager.generateGrid(this._level);
         this.NextLevelButton.node.setPosition(460*2,-190);
     }
 
     start() {
+        //Disable the NextLevelButton
         this.NextLevelButton.node.setPosition(460*2,-190);
+        //Disabled by setting its position out of the screen
         this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
         this.MovesMade.string='Number of Moves made: '+this._moves;
+        this.LevelLabel.string='Level: '+(this._level+1)
         this.GridManager.generateGrid(this._level);
         this.GridManager.node.on('increaseMoves',this.increaseMoves,this)
         this.GridManager.node.on('setMoves',this.setMoves,this)
