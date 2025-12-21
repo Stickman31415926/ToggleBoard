@@ -82,16 +82,18 @@ export class GridManager extends Component {
                 }
             }
         }
+        this.copyGridIntoStartingGrid();
+    }
+    copyGridIntoStartingGrid(){
         this._StartingGrid=[];
-        for(let i=0;i<size;i++){
+        for(let i=0;i<this.gridSize;i++){
             this._row=[]
-            for(let j=0;j<size;j++){
+            for(let j=0;j<this.gridSize;j++){
                 this._row.push(this.grid[i][j]);
             }
             this._StartingGrid.push(this._row);
         }
     }
-
     spawnTilesByGrid(size:number,resetStaringrid?:boolean){
         if(resetStaringrid){
             this._StartingGrid=[];
@@ -191,6 +193,7 @@ export class GridManager extends Component {
                 this.grid[i][j]=this._StartingGrid[i][j];
             }
         }
+        this.levelFinished=false;
         console.log('[#] Grid reseted')
     }
 
