@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node,game } from 'cc';
 import { TileType } from './GridManager';
 const { ccclass, property } = _decorator;
 
@@ -227,5 +227,8 @@ const Levels:Level[] = [
 ]
 
 export function getLevel(index:number) {
+    if(index>=Levels.length){
+        game.end();
+    }
     return Levels[index];
 }

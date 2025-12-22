@@ -25,7 +25,7 @@ export class GridManager extends Component {
     private _StartingGrid:TileType[][]=[];
     private _moved:[number,number][]=[];
     public levelFinished:boolean=false;
-    public gridSize:number;
+    public gridSize:number=0;
 
     private _row:TileType[]=[];
     searchInMoved(val1:number,val2:number){
@@ -38,7 +38,7 @@ export class GridManager extends Component {
     }
     public generateRandomGrid(size:number,moves:number/*cols:number,rows:number*/){
         this.gridSize=size;
-        console.log('[_] Generating grid, Size: '+size)
+        console.log('[_] Generating random grid, Size: '+size)
         for(let i=0;i<size;i++){
             this._row=[];
             for(let j=0;j<size;j++){
@@ -58,20 +58,30 @@ export class GridManager extends Component {
             this.toggleTilesAround(targetRow,targetCol,true)
         }
         this.spawnTilesByGrid(size,true);
-        console.log('[#] Grid generated')
+        console.log('[#] Random grid generated')
     }
     public generateGrid(levelIndex:number){
         let level:Level = getLevel(levelIndex);
         let size = this.gridSize
+        console.log('[_] Generating grid, Level(Start from 0): '+levelIndex)
         if(level.size!=size){
             for(let i=0;i<size;i++){
                 for(let j=0;j<size;j++){
                     let tileNodeToDelete:Node=this.node.getChildByName(''+i+j);
-                    this.node.removeChild(tileNodeToDelete);
+                    if(tileNodeToDelete!=null){
+                        this.node.removeChild(tileNodeToDelete);
+                    }
                 }
             }
-            this.grid=level.grid;
             this.gridSize=level.size;
+            this.grid=[];
+            for(let i=0;i<this.gridSize;i++){
+                this._row=[]
+                for(let j=0;j<this.gridSize;j++){
+                    this._row.push(level.grid[i][j]);
+                }
+                this.grid.push(this._row);
+            }
             this.spawnTilesByGrid(this.gridSize);
         } else {
             for(let i=0;i<size;i++){
@@ -83,6 +93,7 @@ export class GridManager extends Component {
             }
         }
         this.copyGridIntoStartingGrid();
+        console.log('[#] Grid generated')
     }
     copyGridIntoStartingGrid(){
         this._StartingGrid=[];

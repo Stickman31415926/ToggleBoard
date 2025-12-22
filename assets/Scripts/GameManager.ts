@@ -50,9 +50,15 @@ export class GameManager extends Component {
         this.LevelLabel.string='Level: '+(this._level+1)
         this.GridManager.generateGrid(this._level);
         this.NextLevelButton.node.setPosition(460*2,-190);
+        localStorage.setItem('level',String(this._level));
     }
 
     start() {
+        if(localStorage.getItem('level')!=null){
+            localStorage.setItem('level','0');
+        } else {
+            this._level=Number(localStorage.getItem('level'));
+        }
         //Disable the NextLevelButton
         this.NextLevelButton.node.setPosition(460*2,-190);
         //Disabled by setting its position out of the screen
