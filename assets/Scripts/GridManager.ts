@@ -1,11 +1,13 @@
-import { _decorator, Component, Node, Prefab,instantiate, EventTouch,SpriteFrame, Sprite, Input,Script, FogInfo} from 'cc';
+import { _decorator, Component, Node, Prefab,instantiate, EventTouch,SpriteFrame, Sprite, Input} from 'cc';
 import { GameManager } from './GameManager';
 import { Level,getLevel } from './Levels';
 const { ccclass, property } = _decorator;
 
 export enum TileType {
-    on=1,
     off=0,
+    on=1,
+    ban_on=2,
+    ban_off=-2
 }
 
 @ccclass('GridManager')
@@ -16,6 +18,8 @@ export class GridManager extends Component {
     public Tile_On:Prefab;
     @property({type:Prefab})
     public Tile_Off:Prefab;
+    @property({type:Prefab})
+    public Tile_Cover_Ban:Prefab;
     @property({type:SpriteFrame})
     public SF_Tile_On:SpriteFrame;
     @property({type:SpriteFrame})
@@ -64,34 +68,34 @@ export class GridManager extends Component {
         let level:Level = getLevel(levelIndex);
         let size = this.gridSize
         console.log('[_] Generating grid, Level(Start from 0): '+levelIndex)
-        if(level.size!=size){
-            for(let i=0;i<size;i++){
-                for(let j=0;j<size;j++){
-                    let tileNodeToDelete:Node=this.node.getChildByName(''+i+j);
-                    if(tileNodeToDelete!=null){
-                        this.node.removeChild(tileNodeToDelete);
-                    }
-                }
-            }
-            this.gridSize=level.size;
-            this.grid=[];
-            for(let i=0;i<this.gridSize;i++){
-                this._row=[]
-                for(let j=0;j<this.gridSize;j++){
-                    this._row.push(level.grid[i][j]);
-                }
-                this.grid.push(this._row);
-            }
-            this.spawnTilesByGrid(this.gridSize);
-        } else {
-            for(let i=0;i<size;i++){
-                for(let j=0;j<size;j++){
-                    if(this.grid[i][j]!=level.grid[i][j]){
-                        this.toggleTile(i,j);
-                    }
+        // if(level.size!=size){
+        for(let i=0;i<size;i++){
+            for(let j=0;j<size;j++){
+                let tileNodeToDelete:Node=this.node.getChildByName(''+i+j);
+                if(tileNodeToDelete!=null){
+                    this.node.removeChild(tileNodeToDelete);
                 }
             }
         }
+        this.gridSize=level.size;
+        this.grid=[];
+        for(let i=0;i<this.gridSize;i++){
+            this._row=[]
+            for(let j=0;j<this.gridSize;j++){
+                this._row.push(level.grid[i][j]);
+            }
+            this.grid.push(this._row);
+        }
+        this.spawnTilesByGrid(this.gridSize);
+        // } else {
+        //     for(let i=0;i<size;i++){
+        //         for(let j=0;j<size;j++){
+        //             if(this.grid[i][j]!=level.grid[i][j]){
+        //                 this.toggleTile(i,j);
+        //             }
+        //         }
+        //     }
+        // }
         this.copyGridIntoStartingGrid();
         console.log('[#] Grid generated')
     }
@@ -135,6 +139,14 @@ export class GridManager extends Component {
             case TileType.off:
                 tile = instantiate(this.Tile_Off);
                 break;
+            case TileType.ban_on:
+                tile = instantiate(this.Tile_On);
+                tile.addChild(instantiate(this.Tile_Cover_Ban));
+                break;
+            case TileType.ban_off:
+                tile = instantiate(this.Tile_Off);
+                tile.addChild(instantiate(this.Tile_Cover_Ban));
+                break;
         }
         return tile;
     }
@@ -146,6 +158,9 @@ export class GridManager extends Component {
         //NO PROBLEMS HERE, IT'S JUST THE COMPUTER ISN'T COMPUTERING
         let gm = this.parent.getComponent(GridManager);
         if(gm.levelFinished){
+            return;
+        }
+        if(gm.grid[row][col]===TileType.ban_on || gm.grid[row][col]===TileType.ban_off){
             return;
         }
         console.log('[!>] Emit increaseMoves');
@@ -168,6 +183,18 @@ export class GridManager extends Component {
                 break;
             case(TileType.off):
                 this.grid[row][col]=TileType.on;
+                if(!gridOnly){
+                    tileNode.getComponent(Sprite).spriteFrame=this.SF_Tile_On;
+                }
+                break;
+            case(TileType.ban_on):
+                this.grid[row][col]=TileType.ban_off;
+                if(!gridOnly){
+                    tileNode.getComponent(Sprite).spriteFrame=this.SF_Tile_Off;
+                }
+                break;
+            case(TileType.ban_off):
+                this.grid[row][col]=TileType.ban_on;
                 if(!gridOnly){
                     tileNode.getComponent(Sprite).spriteFrame=this.SF_Tile_On;
                 }
@@ -213,6 +240,8 @@ export class GridManager extends Component {
             for(let j=0;j<this.gridSize;j++){
                 switch(this.grid[i][j]){
                     case TileType.off:
+                        return false;
+                    case TileType.ban_off:
                         return false;
                 }
             }

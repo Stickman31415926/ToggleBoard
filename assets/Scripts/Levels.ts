@@ -224,6 +224,18 @@ const Levels:Level[] = [
             [1,1,1,1,1]
         ]
     },
+    {
+        level:21,
+        stdMoves:3,
+        size:5,
+        grid:[
+            [1,1,0,0,0],
+            [1,1,0,-2,0],
+            [1,1,0,0,0],
+            [1,1,1,1,1],
+            [1,1,1,1,1]
+        ]
+    },
 ]
 
 export function getLevel(index:number) {
