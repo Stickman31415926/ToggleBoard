@@ -3,7 +3,6 @@ import { TileType } from './GridManager';
 const { ccclass, property } = _decorator;
 
 export interface Level {
-    level:number;
     stdMoves:number;
     size:number;
     grid:number[][];
@@ -11,7 +10,6 @@ export interface Level {
 
 const Levels:Level[] = [
     {
-        level:1,
         stdMoves:1,
         size:3,
         grid:[
@@ -21,7 +19,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:2,
         stdMoves:1,
         size:3,
         grid:[
@@ -31,7 +28,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:3,
         stdMoves:2,
         size:3,
         grid:[
@@ -41,7 +37,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:4,
         stdMoves:3,
         size:3,
         grid:[
@@ -51,7 +46,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:5,
         stdMoves:1,
         size:3,
         grid:[
@@ -61,7 +55,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:6,
         stdMoves:2,
         size:3,
         grid:[
@@ -71,7 +64,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:7,
         stdMoves:3,
         size:3,
         grid:[
@@ -81,7 +73,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:8,
         stdMoves:2,
         size:3,
         grid:[
@@ -91,7 +82,42 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:9,
+        stdMoves:3,
+        size:3,
+        grid:[
+            [0,1,0],
+            [0,0,1],
+            [1,0,0]
+        ]
+    },
+    {
+        stdMoves:2,
+        size:3,
+        grid:[
+            [0,1,1],
+            [0,1,1],
+            [1,0,0]
+        ]
+    },
+    {
+        stdMoves:3,
+        size:3,
+        grid:[
+            [0,1,1],
+            [1,0,0],
+            [1,1,1]
+        ]
+    },
+    {
+        stdMoves:3,
+        size:3,
+        grid:[
+            [0,0,1],
+            [0,0,1],
+            [0,1,0]
+        ]
+    },
+    {
         stdMoves:1,
         size:4,
         grid:[
@@ -102,7 +128,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:10,
         stdMoves:2,
         size:4,
         grid:[
@@ -113,7 +138,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:11,
         stdMoves:2,
         size:4,
         grid:[
@@ -124,7 +148,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:12,
         stdMoves:3,
         size:4,
         grid:[
@@ -135,7 +158,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:13,
         stdMoves:3,
         size:4,
         grid:[
@@ -146,7 +168,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:14,
         stdMoves:4,
         size:4,
         grid:[
@@ -157,7 +178,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:15,
         stdMoves:2,
         size:4,
         grid:[
@@ -168,7 +188,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:16,
         stdMoves:2,
         size:4,
         grid:[
@@ -179,7 +198,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:17,
         stdMoves:3,
         size:4,
         grid:[
@@ -190,7 +208,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:18,
         stdMoves:4,
         size:4,
         grid:[
@@ -201,7 +218,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:19,
         stdMoves:2,
         size:5,
         grid:[
@@ -213,7 +229,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:20,
         stdMoves:3,
         size:5,
         grid:[
@@ -225,7 +240,6 @@ const Levels:Level[] = [
         ]
     },
     {
-        level:21,
         stdMoves:3,
         size:5,
         grid:[
