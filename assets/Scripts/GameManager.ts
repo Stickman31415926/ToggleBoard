@@ -17,6 +17,10 @@ export class GameManager extends Component {
     public ResetButton:Sprite;
     @property({type:Sprite})
     public NextLevelButton:Sprite;
+    @property({type:Node})
+    public WinScreen:Node;
+    @property({type:Boolean })
+    public LEVEL_CREATING_MODE:boolean;
 
     private _moves:number=0;
     private _hardness:number=1;
@@ -35,8 +39,10 @@ export class GameManager extends Component {
 
     preNextLevel(){
         console.log('[!] Recieved signal of finishedLevel');
-        this.GridManager.levelFinished=true;
-        this.NextLevelButton.node.setPosition(460,-190);
+        if(!this.LEVEL_CREATING_MODE){
+            this.GridManager.levelFinished=true;
+            this.NextLevelButton.node.setPosition(460,-190);
+        }
     }
 
     nextLevel(){
@@ -45,12 +51,21 @@ export class GameManager extends Component {
         this.GridManager.levelFinished=false;
         this.setMoves(0);
         this._level+=1;
+        if(getLevel(this._level)===null){
+            this.gameFinished();
+            return;
+        }
         this._hardness=getLevel(this._level).stdMoves;
         this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
         this.LevelLabel.string='Level: '+(this._level+1)
         this.GridManager.generateGrid(this._level);
         this.NextLevelButton.node.setPosition(460*2,-190);
         localStorage.setItem('level',String(this._level));
+    }
+
+    gameFinished(){
+        this.WinScreen.active=true;
+        this.NextLevelButton.destroy();
     }
 
     start() {
@@ -65,10 +80,15 @@ export class GameManager extends Component {
         this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
         this.MovesMade.string='Number of Moves made: '+this._moves;
         this.LevelLabel.string='Level: '+(this._level+1)
-        this.GridManager.generateGrid(this._level);
+        if(!this.LEVEL_CREATING_MODE){
+            this.GridManager.generateGrid(this._level);
+        } else {
+            this.GridManager.generateGrid(-1);
+        }
         this.GridManager.node.on('increaseMoves',this.increaseMoves,this)
         this.GridManager.node.on('setMoves',this.setMoves,this)
         this.GridManager.node.on('finishedLevel',this.preNextLevel,this)
+        this.GridManager.node.on('gameFinished',this.gameFinished,this)
     }
 
     update(deltaTime: number) {

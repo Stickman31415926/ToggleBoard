@@ -65,7 +65,11 @@ export class GridManager extends Component {
         console.log('[#] Random grid generated')
     }
     public generateGrid(levelIndex:number){
-        let level:Level = getLevel(levelIndex);
+        let level:Level|null = getLevel(levelIndex);
+        if(level===null){
+            this.node.emit('gameFinished');
+            return;
+        }
         let size = this.gridSize
         console.log('[_] Generating grid, Level(Start from 0): '+levelIndex)
         // if(level.size!=size){
