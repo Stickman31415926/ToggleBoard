@@ -29,19 +29,19 @@ export class GameManager extends Component {
     increaseMoves(val:number){
         console.log('[!] Recieved signal of increaseMoves');
         this._moves+=val;
-        this.MovesMade.string='Number of Moves made: '+this._moves;
+        this.MovesMade.string='Number of\nMoves made: '+this._moves;
     }
     setMoves(val:number){
         console.log('[!] Recieved signal of setMoves');
         this._moves=val;
-        this.MovesMade.string='Number of Moves made: '+this._moves;
+        this.MovesMade.string='Number of\nMoves made: '+this._moves;
     }
 
     preNextLevel(){
         console.log('[!] Recieved signal of finishedLevel');
         if(!this.LEVEL_CREATING_MODE){
             this.GridManager.levelFinished=true;
-            this.NextLevelButton.node.setPosition(460,-190);
+            this.NextLevelButton.node.setPosition(0,-200);
         }
     }
 
@@ -56,7 +56,7 @@ export class GameManager extends Component {
             return;
         }
         this._hardness=getLevel(this._level).stdMoves;
-        this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
+        this.StdMovesNeeded.string='Standard number\nof Moves needed: '+this._hardness;
         this.LevelLabel.string='Level: '+(this._level+1)
         this.GridManager.generateGrid(this._level);
         this.NextLevelButton.node.setPosition(460*2,-190);
@@ -77,8 +77,8 @@ export class GameManager extends Component {
         //Disable the NextLevelButton
         this.NextLevelButton.node.setPosition(460*2,-190);
         //Disabled by setting its position out of the screen
-        this.StdMovesNeeded.string='Standard number of Moves needed: '+this._hardness;
-        this.MovesMade.string='Number of Moves made: '+this._moves;
+        this.StdMovesNeeded.string='Standard number\nof Moves needed: '+this._hardness;
+        this.MovesMade.string='Number of\nMoves made: '+this._moves;
         this.LevelLabel.string='Level: '+(this._level+1)
         if(!this.LEVEL_CREATING_MODE){
             this.GridManager.generateGrid(this._level);
